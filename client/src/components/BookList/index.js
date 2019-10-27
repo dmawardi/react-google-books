@@ -13,33 +13,46 @@ export function RecipeList({ children }) {
 // RecipeListItem renders a bootstrap list item containing data from the recipe api call
 export function BookListItem(props) {
   return (
-    <div className="card">
-      <div className="card-header">
-        <span>Title</span>
+    <div key={props.identifier} className="card">
+      <div key={props.identifier} className="card-header">
+        <span>{props.title}</span>
         <div>
-          <a href="/" class="btn btn-primary">
+          <a
+            key={props.identifier}
+            href={props.infoLink}
+            class="btn btn-primary"
+          >
             View
           </a>
-          <a href="/" class="btn btn-primary">
-            Delete
+
+          {/* If the page state is aved, then display delete button. Else, display save button */}
+          <a
+            key={props.identifier}
+            href="/"
+            className="btn btn-primary"
+            data-id={props.identifier}
+          >
+            {props.pageState === "Saved" ? "Delete" : "Save"}
           </a>
         </div>
       </div>
-      <div className="card-body">
-        <div className="row">
+      <div key={props.identifier} className="card-body">
+        <div key={props.identifier} className="row">
           <div className="col-md-4">
-            <img src="..." className="card-img" alt="..."></img>
+            <img
+              src={props.thumbnail}
+              className="card-img"
+              alt={props.title}
+            ></img>
           </div>
           <div className="col-md-8">
             <div className="card-body">
-              <h5 className="card-title">Card title</h5>
+              <h5 className="card-title">
+                {props.title + " by " + props.authors}
+              </h5>
+              <p className="card-text">{props.description}</p>
               <p className="card-text">
-                This is a wider card with supporting text below as a natural
-                lead-in to additional content. This content is a little bit
-                longer.
-              </p>
-              <p className="card-text">
-                <small className="text-muted">Last updated 3 mins ago</small>
+                <small className="text-muted">ISBN: {props.identifier}</small>
               </p>
             </div>
           </div>

@@ -3,15 +3,18 @@ import Jumbotron from "./components/Jumbotron";
 import Nav from "./components/Nav";
 import Input from "./components/Input";
 import Button from "./components/Button";
+import Results from "./components/Results";
 import API from "./utils/API";
-import { BookListItem } from "./components/BookList";
+// import { BookListItem } from "./components/BookList";
 import { Container, Row, Col } from "./components/Grid";
 
 class App extends Component {
   state = {
     books: [],
     bookSearch: "",
-    page: "Saved"
+    page: "Saved",
+    searchedBooks: [],
+    userSearchMessage: ""
   };
 
   handlePageChange = event => {
@@ -34,21 +37,39 @@ class App extends Component {
   handleInputChange = event => {
     // Destructure the name and value properties off of event.target
     // Update the appropriate state
-    const { name, value } = event.target;
+    const { value } = event.target;
     this.setState({
-      [name]: value
+      bookSearch: value
+    });
+    console.log(this.state.bookSearch);
+  };
+
+  displayToUserSearchMessage = message => {
+    this.setState({
+      userSearchMessage: message
     });
   };
 
   handleFormSubmit = event => {
     // When the form is submitted, prevent its default behavior, get recipes update the recipes state
+    console.log("Form submitted!");
+    this.displayToUserSearchMessage("Searching...");
+
     event.preventDefault();
-    API.getRecipes(this.state.bookSearch)
+    API.getBooks(this.state.bookSearch)
       .then(res => {
-        console.log(res.data);
-        this.setState({ recipes: res.data });
+        console.log(res.data.items);
+        this.setState({
+          searchedBooks: res.data.items,
+          userSearchMessage: ""
+        });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        this.setState({
+          userSearchMessage: "Search Failed"
+        });
+      });
   };
 
   render() {
@@ -61,57 +82,52 @@ class App extends Component {
 
         {/* booksearch container */}
         <Container>
-          <Row>
-            <Col size="md-12">
-              <form>
-                <Container>
-                  <Row>
-                    <Col size="xs-9 sm-10">
-                      <Input
-                        name="bookSearch"
-                        value={this.state.bookSearch}
-                        onChange={this.handleInputChange}
-                        placeholder="Search For a Book"
-                      />
-                    </Col>
-                    <Col size="xs-3 sm-2">
-                      <Button
-                        onClick={this.handleFormSubmit}
-                        type="success"
-                        className="input-lg"
-                      >
-                        Search
-                      </Button>
-                    </Col>
-                  </Row>
-                </Container>
-              </form>
-            </Col>
-          </Row>
+          {/* If page state is at search, then display search form */}
+          {this.state.page === "Search" ? (
+            <Row>
+              <Col size="md-12">
+                <form>
+                  <Container>
+                    <Row>
+                      <Col size="xs-9 sm-10">
+                        {/* Display user search message if searching */}
+                        <span>{this.state.userSearchMessage}</span>
+                        <Input
+                          name="bookSearch"
+                          value={this.state.bookSearch}
+                          onChange={this.handleInputChange}
+                          placeholder="Search For a Book"
+                        />
+                      </Col>
+                      <Col size="xs-3 sm-2">
+                        <Button
+                          onClick={this.handleFormSubmit}
+                          type="success"
+                          className="input-lg"
+                        >
+                          Search
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Container>
+                </form>
+              </Col>
+            </Row>
+          ) : (
+            // Else return an empty div
+            <></>
+          )}
 
-          {/* Book Results */}
+          {/* Book Results: Show saved books if on saved page, else show search results */}
+
           <Row>
             <Col size="12">
               <Container>
-                <h3>Saved Books</h3>
-                <BookListItem />
-                {/* If static variable books has length */}
-                {/* {this.state.books.length ? (
-                  this.state.books.map(function(data) {
-                    console.log(data);
-                    return (
-                      <BookListItem
-                        title={data.title}
-                        thumbnail={data.thumbnail}
-                        ingredients={data.ingredients}
-                        href={data.href}
-                      />
-                    );
-                  })
-                ) : (
-                  // Else, empty div
-                  <></>
-                )} */}
+                <Results
+                  pageState={this.state.page}
+                  books={this.state.books}
+                  searchedBooks={this.state.searchedBooks}
+                />
               </Container>
             </Col>
           </Row>
