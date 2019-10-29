@@ -50,19 +50,33 @@ class App extends Component {
     });
   };
 
+  returnAllSavedBooks = () => {
+    API.returnSavedBooks().then(data => {
+      console.log(data);
+    });
+  };
+
+  componentDidMount = () => {
+    API.returnSavedBooks().then(data => {
+      console.log(data);
+    });
+  };
+
   handleFormSubmit = event => {
     // When the form is submitted, prevent its default behavior, get recipes update the recipes state
     console.log("Form submitted!");
+    console.log("State:", this.state);
     this.displayToUserSearchMessage("Searching...");
 
     event.preventDefault();
+
     API.getBooks(this.state.bookSearch)
       .then(res => {
-        console.log(res.data.items);
-        this.setState({
-          searchedBooks: res.data.items,
-          userSearchMessage: ""
-        });
+        console.log(res);
+        // this.setState({
+        //   searchedBooks: res.data.items,
+        //   userSearchMessage: ""
+        // });
       })
       .catch(err => {
         console.log(err);
@@ -123,6 +137,14 @@ class App extends Component {
           <Row>
             <Col size="12">
               <Container>
+                {/* Test button to return all saved books */}
+                <Button
+                  onClick={this.returnAllSavedBooks}
+                  type="success"
+                  className="input-lg"
+                >
+                  Update
+                </Button>
                 <Results
                   pageState={this.state.page}
                   books={this.state.books}

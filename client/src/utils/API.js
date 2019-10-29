@@ -8,8 +8,12 @@ export default {
     //   "https://www.googleapis.com/books/v1/volumes?q=" +
     //   encodeURIComponent(titleToSearch);
 
-    let searchQuery = "/api/getBooks/" + titleToSearch;
+    let searchQuery = "/api/getBooks/?" + titleToSearch;
 
     return axios.get(searchQuery);
+  },
+
+  returnSavedBooks: function() {
+    return axios.get("/api/savedBooks");
   }
 };
