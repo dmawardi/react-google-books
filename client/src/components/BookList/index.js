@@ -1,21 +1,16 @@
 import React from "react";
 import("./style.css");
 // import Thumbnail from "../Thumbnail";
-// import { Container, Row, Col } from "../Grid";
 
-// Exporting both RecipeList and RecipeListItem from this file
-
-// RecipeList renders a bootstrap list item
-export function RecipeList({ children }) {
-  return <ul className="list-group">{children}</ul>;
-}
-
-// RecipeListItem renders a bootstrap list item containing data from the recipe api call
+// BookListItem renders a bootstrap list item containing data from the recipe api call
 export function BookListItem(props) {
   return (
+    // Build card
     <div key={props.identifier} className="card">
       <div key={props.identifier} className="card-header">
         <span>{props.title}</span>
+
+        {/* Start button section of header */}
         <div>
           <a
             key={props.identifier}
@@ -36,15 +31,19 @@ export function BookListItem(props) {
           </a>
         </div>
       </div>
+
+      {/* Card body */}
       <div key={props.identifier} className="card-body">
         <div key={props.identifier} className="row">
           <div className="col-md-4">
+            {/* Book image thumbnail */}
             <img
               src={props.thumbnail}
               className="card-img"
               alt={props.title}
             ></img>
           </div>
+          {/* Book details */}
           <div className="col-md-8">
             <div className="card-body">
               <h5 className="card-title">

@@ -4,7 +4,7 @@ import("./style.css");
 // import Thumbnail from "../Thumbnail";
 // import { Container, Row, Col } from "../Grid";
 
-// RecipeListItem renders a bootstrap list item containing data from the recipe api call
+// Results renders Saved books (MongoDB) or searched books (Google Books)
 export function Results(props) {
   console.log("Results props: ", props);
   if (props.pageState === "Saved") {

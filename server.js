@@ -22,12 +22,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooks", {
   useUnifiedTopology: true
 });
 
-// Define API routes here
-// Send every other request to the React app
-// Define any API routes before this runs
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "./client/public/index.html"));
-});
+// Init Server and listen
 
 app.listen(PORT, () => {
   console.log(`🌎 ==> API server now on port ${PORT}!`);

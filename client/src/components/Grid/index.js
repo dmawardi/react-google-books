@@ -7,13 +7,13 @@ export function Container({ fluid, children }) {
   return <div className={`container${fluid ? "-fluid" : ""}`}>{children}</div>;
 }
 
-// This Row component lets us use a bootstrap row without having to think about class names
+// A custom Row component that uses boostrap classes that can be toggled fluid (t/f)
 export function Row({ fluid, children }) {
   return <div className={`row${fluid ? "-fluid" : ""}`}>{children}</div>;
 }
 
-// This Col component lets us size bootstrap columns with less syntax
-// e.g. <Col size="md-12"> instead of <div className="col-md-12">
+// Col component that allows toggling bootstrap columns with less syntax
+// e.g. <Col size="md-12">
 export function Col({ size, children }) {
   return (
     <div

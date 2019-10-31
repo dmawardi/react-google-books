@@ -8,60 +8,78 @@ import API from "./utils/API";
 // import { BookListItem } from "./components/BookList";
 import { Container, Row, Col } from "./components/Grid";
 
+// Create class App for overall application
 class App extends Component {
+  // State
   state = {
+    // Stored books
     books: [],
+    // Current Search
     bookSearch: "",
+    // Current page
     page: "Saved",
+    // Current Google Books Search Results
     searchedBooks: [],
+    // Message to display for user search status
     userSearchMessage: ""
   };
 
+  // Changes state of page when click detected
   handlePageChange = event => {
     event.preventDefault();
-    // Destructure the name and value properties off of event.target
-    // Update the appropriate state
-    // const { name, value } = event.target;
+    // Grab clicked item's inner text
     const targetPage = event.target.innerText;
     console.log(event.target);
-    // console.log("name: ", name, "\nValue: ", value);
-    // console.log("inner", inner);
+
     console.log("setting state \ninnertext" + targetPage);
+    // Set state variable page to new page values
     this.setState({
       page: targetPage
     });
-
-    // console.log("Current State: " + this.state.page);
   };
 
+  // As search input is changing
   handleInputChange = event => {
-    // Destructure the name and value properties off of event.target
-    // Update the appropriate state
+    // Destructure the value property off of event.target
     const { value } = event.target;
+    // Update the bookSearch state
     this.setState({
       bookSearch: value
     });
-    console.log(this.state.bookSearch);
   };
 
+  // Function to handle message for user's search status
   displayToUserSearchMessage = message => {
+    // Set state user search message value to new message
     this.setState({
       userSearchMessage: message
     });
   };
 
+  // Make API call and return TODO
   returnAllSavedBooks = () => {
+    // Make call using API
     API.returnSavedBooks().then(data => {
       console.log(data);
     });
   };
 
+  // Delete book using id TODO
+  deleteBookById = event => {
+    let idToDelete = event.target;
+    console.log(idToDelete);
+
+    // API.deleteBook(idToDelete).then(data => {
+    //   console.log(data);
+    // });
+  };
+
+  // Once mounted, populate with saved books
   componentDidMount = () => {
-    API.returnSavedBooks().then(data => {
-      console.log(data);
-    });
+    this.returnAllSavedBooks();
   };
 
+  // Handle when the form is submitted: perform a search
   handleFormSubmit = event => {
     // When the form is submitted, prevent its default behavior, get recipes update the recipes state
     console.log("Form submitted!");
@@ -70,6 +88,7 @@ class App extends Component {
 
     event.preventDefault();
 
+    // Use API to get books
     API.getBooks(this.state.bookSearch)
       .then(res => {
         console.log(res);
@@ -114,6 +133,7 @@ class App extends Component {
                         />
                       </Col>
                       <Col size="xs-3 sm-2">
+                        {/* Submit Search button */}
                         <Button
                           onClick={this.handleFormSubmit}
                           type="success"

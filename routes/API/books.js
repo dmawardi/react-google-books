@@ -1,23 +1,40 @@
 const router = require("express").Router();
 const booksController = require("../../controllers/booksController");
 
-// Matches with "/api/books"
+// All below routes match with "/api/books/*"
 // Saves books to db
-router
-  .route("/saveBook")
-  .get(booksController.findAll)
-  .post(booksController.create);
+router.route("/saveBook").post((req, res) => {
+  console.log("req:", req.body);
+  // console.log("res: ", res);
+  // Use Books controller to create a new document
+  booksController
+    .create(req)
+    // Then
+    .then(data => {
+      // Send status 200
+      console.log("Saved: ", data);
+      res.sendStatus(200);
+    })
+    .catch(err => {
+      // Send status 500
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
 
-// Check all books in database
+// Return all books in database
 router.route("/savedBooks").get(booksController.findAll);
 
-// Matches with "/api/books/:id"
-// finds by ID and removes
+// finds by ID and removes from delete request
 router
   .route("/savedBooks/:id")
   // the findbyId function grabs the url request parameter and uses it to search
-  .get(booksController.findById)
-  .put(booksController.update)
-  .delete(booksController.remove);
+  .delete(() => {
+    // Use book controller to remove by id
+    booksController.removeById(req.params.id).then(() => {
+      // If all fine, send status 200
+      res.sendStatus(200);
+    });
+  });
 
 module.exports = router;

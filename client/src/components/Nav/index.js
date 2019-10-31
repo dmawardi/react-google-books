@@ -1,9 +1,10 @@
 import React from "react";
 import "./style.css";
-// import { PromiseProvider } from "mongoose";
 
+// Nav bar return function
 function Nav(props) {
   return (
+    // Nav Bar
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <a className="navbar-brand" href="/">
         Google Books

@@ -1,19 +1,21 @@
 import axios from "axios";
 
-// The getRecipes method retrieves recipes from the server
-// It accepts a "query" or term to search the recipe api for
+// Export an object containing API call functions
 export default {
+  // Function to get book results from Google Books
   getBooks: function(titleToSearch) {
-    // let searchQuery =
-    //   "https://www.googleapis.com/books/v1/volumes?q=" +
-    //   encodeURIComponent(titleToSearch);
-
-    let searchQuery = "/api/getBooks/?" + titleToSearch;
-
+    let searchQuery = "/api/getBooks/" + titleToSearch;
+    // Return promise to resolve
     return axios.get(searchQuery);
   },
 
+  // Return all saved books
   returnSavedBooks: function() {
     return axios.get("/api/savedBooks");
+  },
+
+  // Delete a book using its id
+  deleteBook: function(idToDelete) {
+    return axios.delete("/api/savedBooks/" + idToDelete);
   }
 };
