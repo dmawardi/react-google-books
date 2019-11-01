@@ -60,7 +60,10 @@ class App extends Component {
   returnAllSavedBooks = () => {
     // Make call using API
     API.returnSavedBooks().then(data => {
-      console.log(data);
+      console.log(data.data);
+      this.setState({
+        books: data.data
+      });
     });
   };
 
@@ -68,10 +71,6 @@ class App extends Component {
   deleteBookById = event => {
     let idToDelete = event.target;
     console.log(idToDelete);
-
-    // API.deleteBook(idToDelete).then(data => {
-    //   console.log(data);
-    // });
   };
 
   // Once mounted, populate with saved books
@@ -92,10 +91,10 @@ class App extends Component {
     API.getBooks(this.state.bookSearch)
       .then(res => {
         console.log(res);
-        // this.setState({
-        //   searchedBooks: res.data.items,
-        //   userSearchMessage: ""
-        // });
+        this.setState({
+          searchedBooks: res.data,
+          userSearchMessage: ""
+        });
       })
       .catch(err => {
         console.log(err);

@@ -11,11 +11,11 @@ export default {
 
   // Return all saved books
   returnSavedBooks: function() {
-    return axios.get("/api/savedBooks");
+    return axios.get("/api/books/savedBooks");
   },
 
   // Delete a book using its id
   deleteBook: function(idToDelete) {
-    return axios.delete("/api/savedBooks/" + idToDelete);
+    return axios.delete("/api/books/savedBooks/" + idToDelete);
   }
 };

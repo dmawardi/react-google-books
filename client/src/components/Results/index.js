@@ -15,15 +15,18 @@ export function Results(props) {
         {/* If state variable books has length  */}
         {props.books.length ? (
           // Iterate through books array
-          this.state.books.map(function(data) {
-            console.log(data);
+          props.books.map(function(data) {
+            console.log("In props book loop");
             return (
               // Create a book list item
               <BookListItem
+                key={data._id}
+                id={data._id}
                 title={data.title}
-                thumbnail={data.thumbnail}
-                ingredients={data.ingredients}
-                href={data.href}
+                thumbnail={data.image}
+                authors={data.authors}
+                description={data.description}
+                link={data.link}
               />
             );
           })

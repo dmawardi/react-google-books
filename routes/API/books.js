@@ -23,7 +23,22 @@ router.route("/saveBook").post((req, res) => {
 });
 
 // Return all books in database
-router.route("/savedBooks").get(booksController.findAll);
+// router.route("/savedBooks").get(booksController.findAll);
+
+router.get("/savedBooks", function(req, res) {
+  booksController
+    .findAll()
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      res.sendStatus(500);
+    });
+});
+
+router.get("/test", function(req, res) {
+  res.send("Working!");
+});
 
 // finds by ID and removes from delete request
 router

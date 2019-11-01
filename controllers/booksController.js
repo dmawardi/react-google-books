@@ -4,7 +4,7 @@ const db = require("../models");
 module.exports = {
   // Find all sorted by date
   findAll: function(req, res) {
-    db.Book.find().sort({ date: -1 });
+    return db.Book.find().sort({ date: -1 });
   },
 
   // Find by ID

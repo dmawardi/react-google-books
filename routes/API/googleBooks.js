@@ -7,7 +7,9 @@ router.get("/:title", (req, res) => {
   // Search Google Books using googleBooks controller
   googleBookSearch(req.params.title)
     .then(response => {
-      console.log(response.data.items);
+      console.log("RESPONSE DATA ITEMS\n", response.data.items);
+      console.log("RESPONSE N---------------------------------\n", response);
+
       res.json(response.data.items);
     })
     .catch(err => {
