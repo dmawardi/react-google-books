@@ -17,9 +17,15 @@ export function BookListItem(props) {
           </a>
 
           {/* If the page state is saved, then display delete button. Else, display save button */}
-          <a href="/" className="btn btn-primary" data-id={props.id}>
-            {props.pageState === "Saved" ? "Delete" : "Save"}
-          </a>
+          {props.pageState === "Saved" ? (
+            <a href="/" className="btn btn-primary" data-id={props.id}>
+              Delete
+            </a>
+          ) : (
+            <a href="/" className="btn btn-primary" data-id={props.id}>
+              Save
+            </a>
+          )}
         </div>
       </div>
 

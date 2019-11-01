@@ -68,9 +68,14 @@ class App extends Component {
   };
 
   // Delete book using id TODO
-  deleteBookById = event => {
+  handleDeleteBookById = event => {
     let idToDelete = event.target;
-    console.log(idToDelete);
+    console.log("Attempting delete", idToDelete);
+  };
+
+  handleBookSaveById = event => {
+    let idToSave = event.target;
+    console.log("Attempting save", idToSave);
   };
 
   // Once mounted, populate with saved books
@@ -168,6 +173,8 @@ class App extends Component {
                   pageState={this.state.page}
                   books={this.state.books}
                   searchedBooks={this.state.searchedBooks}
+                  handleBookDelete={this.handleDeleteBookById}
+                  handleBookSave={this.handleBookSaveById}
                 />
               </Container>
             </Col>

@@ -27,6 +27,7 @@ export function Results(props) {
                 authors={data.authors}
                 description={data.description}
                 link={data.link}
+                pageState={props.pageState}
               />
             );
           })
@@ -51,7 +52,7 @@ export function Results(props) {
             const { title, infoLink, description } = data.volumeInfo;
             const thumbnail = data.volumeInfo.imageLinks.thumbnail || "";
             console.log(data.volumeInfo.industryIdentifiers);
-            const identifier = data.volumeInfo.industryIdentifiers[0].identifer;
+            const identifier = data.id || "Unknown";
             // Join array of authors with commas separating and remove last comma
             const authors = data.volumeInfo.authors
               ? data.volumeInfo.authors.join(", ").substring(0, -2)
@@ -62,12 +63,13 @@ export function Results(props) {
               <BookListItem
                 key={identifier}
                 title={title}
-                infoLink={infoLink}
                 thumbnail={thumbnail}
                 authors={authors}
                 description={description}
-                identifier={identifier}
+                id={identifier}
                 pageState={props.pageState}
+                link={infoLink}
+                bookSave={props.handleBookSave()}
               />
             );
           })
