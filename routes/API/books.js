@@ -38,10 +38,12 @@ router.get("/savedBooks", function(req, res) {
 
 // finds by ID and removes from delete request
 router
-  .route("/savedBooks/:id")
   // the findbyId function grabs the url request parameter and uses it to search
-  .delete(() => {
+  .delete("/savedBooks/:id", (req, res) => {
     // Use book controller to remove by id
+    console.log("req: ", req.params.id);
+    console.log("res: ", res);
+
     booksController.removeById(req.params.id).then(() => {
       // If all fine, send status 200
       res.sendStatus(200);

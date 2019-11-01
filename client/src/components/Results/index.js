@@ -28,6 +28,7 @@ export function Results(props) {
                 description={data.description}
                 link={data.link}
                 pageState={props.pageState}
+                bookDelete={props.handleBookDelete}
               />
             );
           })
@@ -47,16 +48,19 @@ export function Results(props) {
         {props.searchedBooks.length ? (
           // Iterate through books array
           props.searchedBooks.map(function(data) {
-            console.log(data.volumeInfo);
+            console.log("data volume info: ", data.volumeInfo);
             // Extract required information
             const { title, infoLink, description } = data.volumeInfo;
-            const thumbnail = data.volumeInfo.imageLinks.thumbnail || "";
+            const thumbnail = data.volumeInfo.imageLinks.thumbnail
+              ? data.volumeInfo.imageLinks.thumbnail
+              : "https://images.unsplash.com/photo-1572545227797-609a2864113e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3334&q=80";
             console.log(data.volumeInfo.industryIdentifiers);
             const identifier = data.id || "Unknown";
             // Join array of authors with commas separating and remove last comma
             const authors = data.volumeInfo.authors
-              ? data.volumeInfo.authors.join(", ").substring(0, -2)
-              : "Anonymous";
+              ? data.volumeInfo.authors.join(", ")
+              : // .substring(0, -2)
+                "Anonymous";
 
             return (
               // Create a book list item
@@ -69,7 +73,7 @@ export function Results(props) {
                 id={identifier}
                 pageState={props.pageState}
                 link={infoLink}
-                bookSave={props.handleBookSave()}
+                bookSave={props.handleBookSave}
               />
             );
           })

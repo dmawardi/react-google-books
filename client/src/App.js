@@ -56,7 +56,7 @@ class App extends Component {
     });
   };
 
-  // Make API call and return TODO
+  // Make API call and return
   returnAllSavedBooks = () => {
     // Make call using API
     API.returnSavedBooks().then(data => {
@@ -67,19 +67,66 @@ class App extends Component {
     });
   };
 
-  // Delete book using id TODO
+  // Delete book using id
   handleDeleteBookById = event => {
-    event.preventDefault();
-
-    let idToDelete = event.target;
-    console.log("Attempting delete", idToDelete.getAttribute("data-id"));
+    let idToDelete = event.target.getAttribute("data-id");
+    console.log("Attempting delete", idToDelete);
+    // Save book using api call and stored object
+    API.deleteBook(idToDelete)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   };
 
+  // Save book using id to search in states' result variable
   handleBookSaveById = event => {
-    event.preventDefault();
+    let idToSave = event.target.getAttribute("data-id");
+    console.log("Attempting save", idToSave);
 
-    let idToSave = event.target;
-    console.log("Attempting save", idToSave.getAttribute("data-id"));
+    // Iterate looking for match
+    for (let i = 0; i < this.state.searchedBooks.length; i++) {
+      // If Id match found
+      if (this.state.searchedBooks[i].id === idToSave) {
+        console.log("id found!", this.state.searchedBooks[i]);
+
+        // Extract values from found item
+        const { title, infoLink, description } = this.state.searchedBooks[
+          i
+        ].volumeInfo;
+        const thumbnail = this.state.searchedBooks[i].volumeInfo.imageLinks
+          .thumbnail
+          ? this.state.searchedBooks[i].volumeInfo.imageLinks.thumbnail
+          : "https://images.unsplash.com/photo-1572545227797-609a2864113e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3334&q=80";
+        console.log(this.state.searchedBooks[i].volumeInfo.industryIdentifiers);
+        const identifier = this.state.searchedBooks[i].id || "Unknown";
+        // Join array of authors with commas separating and remove last comma
+        const authors = this.state.searchedBooks[i].volumeInfo.authors.length
+          ? this.state.searchedBooks[i].volumeInfo.authors.join(", ")
+          : // .substring(0, -2)
+            "Anonymous";
+        // Create object for API call
+        var bookToStore = {
+          title: title,
+          authors: authors,
+          link: infoLink,
+          image: thumbnail,
+          identifier: identifier,
+          description: description
+        };
+      }
+    }
+
+    // Save book using api call and stored object
+    API.saveBook(bookToStore)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   };
 
   // Once mounted, populate with saved books
@@ -132,13 +179,14 @@ class App extends Component {
                     <Row>
                       <Col size="xs-9 sm-10">
                         {/* Display user search message if searching */}
-                        <span>{this.state.userSearchMessage}</span>
+
                         <Input
                           name="bookSearch"
                           value={this.state.bookSearch}
                           onChange={this.handleInputChange}
                           placeholder="Search For a Book"
                         />
+                        <span>{this.state.userSearchMessage}</span>
                       </Col>
                       <Col size="xs-3 sm-2">
                         {/* Submit Search button */}
@@ -165,14 +213,6 @@ class App extends Component {
           <Row>
             <Col size="12">
               <Container>
-                {/* Test button to return all saved books */}
-                <Button
-                  onClick={this.returnAllSavedBooks}
-                  type="success"
-                  className="input-lg"
-                >
-                  Update
-                </Button>
                 <Results
                   pageState={this.state.page}
                   books={this.state.books}

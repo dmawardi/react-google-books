@@ -14,6 +14,12 @@ export default {
     return axios.get("/api/books/savedBooks");
   },
 
+  saveBook: function(bookToStore) {
+    let endPoint = "/api/books/saveBook";
+    // Return promise to resolve
+    return axios.post(endPoint, bookToStore);
+  },
+
   // Delete a book using its id
   deleteBook: function(idToDelete) {
     return axios.delete("/api/books/savedBooks/" + idToDelete);

@@ -15,8 +15,8 @@ module.exports = {
   },
 
   // Remove book by id from db
-  removeById: function(req) {
-    db.Book.remove({ _id: req.params.id }, err => {
+  removeById: function(id) {
+    db.Book.remove({ _id: id }, err => {
       if (err) console.error(err);
       console.log("Successfully removed!");
     });

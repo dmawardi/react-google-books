@@ -18,13 +18,22 @@ export function BookListItem(props) {
 
           {/* If the page state is saved, then display delete button. Else, display save button */}
           {props.pageState === "Saved" ? (
-            <a href="/" className="btn btn-primary" data-id={props.id}>
+            <button
+              className="btn btn-primary"
+              data-id={props.id}
+              onClick={props.bookDelete}
+            >
               Delete
-            </a>
+            </button>
           ) : (
-            <a href="/" className="btn btn-primary" data-id={props.id}>
+            <button
+              href="/"
+              className="btn btn-primary"
+              data-id={props.id}
+              onClick={props.bookSave}
+            >
               Save
-            </a>
+            </button>
           )}
         </div>
       </div>
@@ -34,11 +43,18 @@ export function BookListItem(props) {
         <div className="row">
           <div className="col-md-4">
             {/* Book image thumbnail */}
-            <img
-              src={props.thumbnail}
-              className="card-img"
-              alt={props.title}
-            ></img>
+            {/* If thumbnail detected */}
+            {props.thumbnail ? (
+              // Generate image
+              <img
+                src={props.thumbnail}
+                className="card-img"
+                alt={props.title}
+              ></img>
+            ) : (
+              // else, return nothing
+              <></>
+            )}
           </div>
           {/* Book details */}
           <div className="col-md-8">
