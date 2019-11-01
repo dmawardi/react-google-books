@@ -36,10 +36,6 @@ router.get("/savedBooks", function(req, res) {
     });
 });
 
-router.get("/test", function(req, res) {
-  res.send("Working!");
-});
-
 // finds by ID and removes from delete request
 router
   .route("/savedBooks/:id")
