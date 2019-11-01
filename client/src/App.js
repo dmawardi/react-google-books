@@ -69,13 +69,17 @@ class App extends Component {
 
   // Delete book using id TODO
   handleDeleteBookById = event => {
+    event.preventDefault();
+
     let idToDelete = event.target;
-    console.log("Attempting delete", idToDelete);
+    console.log("Attempting delete", idToDelete.getAttribute("data-id"));
   };
 
   handleBookSaveById = event => {
+    event.preventDefault();
+
     let idToSave = event.target;
-    console.log("Attempting save", idToSave);
+    console.log("Attempting save", idToSave.getAttribute("data-id"));
   };
 
   // Once mounted, populate with saved books
